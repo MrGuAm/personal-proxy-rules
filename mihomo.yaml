@@ -123,12 +123,9 @@ proxy-groups:
       - "♻️ 自动测速"
       - "🛠️ 手动选择"
       - "🇭🇰 香港节点"
-      - "🇹🇼 台湾节点"
       - "🇯🇵 日本节点"
       - "🇸🇬 新加坡节点"
       - "🇺🇸 美国节点"
-      - "🇰🇷 韩国节点"
-      - "🌐 其他地区"
       - DIRECT
 
   - name: "♻️ 自动测速"
@@ -149,15 +146,6 @@ proxy-groups:
     type: url-test
     include-all: true
     filter: "(?i)(香港|港|HK|Hong ?Kong|HongKong)"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
-
-  - name: "🇹🇼 台湾节点"
-    type: url-test
-    include-all: true
-    filter: "(?i)(台湾|台|TW|Taiwan|Taipei|台北)"
     url: "http://www.gstatic.com/generate_204"
     interval: 300
     tolerance: 50
@@ -190,23 +178,6 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "🇰🇷 韩国节点"
-    type: url-test
-    include-all: true
-    filter: "(?i)(韩国|韩|KR|Korea|Seoul|首尔)"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
-
-  - name: "🌐 其他地区"
-    type: url-test
-    include-all: true
-    exclude-filter: "(?i)(香港|港|HK|Hong ?Kong|HongKong|台湾|台|TW|Taiwan|Taipei|日本|日|JP|Japan|东京|東京|大阪|Osaka|Tokyo|新加坡|狮城|SG|Singapore|美国|美|US|USA|United ?States|America|洛杉矶|Los ?Angeles|纽约|New ?York|韩国|韩|KR|Korea|Seoul|首尔|剩余|流量|套餐|到期|官网|客服|邀请|机场|群组)"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
 rule-providers:
   lan:
     type: http
