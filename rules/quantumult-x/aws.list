@@ -1,9 +1,0 @@
-# AWS custom rules
-HOST-SUFFIX,aws.amazon.com
-HOST-SUFFIX,amazonaws.com
-HOST-SUFFIX,amazonaws.com.cn
-HOST-SUFFIX,awsstatic.com
-HOST-SUFFIX,awsapps.com
-HOST-SUFFIX,aws.amazon.com.cn
-HOST-SUFFIX,signin.aws.amazon.com
-HOST-SUFFIX,console.aws.amazon.com

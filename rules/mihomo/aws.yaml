@@ -1,9 +1,0 @@
-payload:
-  - DOMAIN-SUFFIX,aws.amazon.com
-  - DOMAIN-SUFFIX,amazonaws.com
-  - DOMAIN-SUFFIX,amazonaws.com.cn
-  - DOMAIN-SUFFIX,awsstatic.com
-  - DOMAIN-SUFFIX,awsapps.com
-  - DOMAIN-SUFFIX,aws.amazon.com.cn
-  - DOMAIN-SUFFIX,signin.aws.amazon.com
-  - DOMAIN-SUFFIX,console.aws.amazon.com
