@@ -13,80 +13,6 @@ geox-url:
   geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
 
 proxy-groups:
-  # ---------- 服务策略 ----------
-  - name: "X电报"
-    type: select
-    proxies:
-      - "节点选择"
-      - "自动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "手动选择"
-      - DIRECT
-
-  - name: "AI服务"
-    type: select
-    proxies:
-      - "美国节点"
-      - "节点选择"
-      - "自动选择"
-      - "日本节点"
-      - "新加坡节点"
-      - "手动选择"
-      - DIRECT
-
-  - name: "YouTube"
-    type: select
-    proxies:
-      - "节点选择"
-      - "自动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "手动选择"
-      - DIRECT
-
-  - name: "Spotify"
-    type: select
-    proxies:
-      - "节点选择"
-      - "自动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "手动选择"
-      - DIRECT
-
-  - name: "Amazon电商"
-    type: select
-    proxies:
-      - DIRECT
-      - "节点选择"
-
-  - name: "Wildberries电商"
-    type: select
-    proxies:
-      - DIRECT
-      - "节点选择"
-
-  - name: "广告拦截"
-    type: select
-    # REJECT = 开启拦截；DIRECT = 关闭拦截
-    proxies:
-      - REJECT
-      - DIRECT
-
-  - name: "漏网之鱼"
-    type: select
-    proxies:
-      - "节点选择"
-      - "自动选择"
-      - "手动选择"
-      - DIRECT
   # ---------- 节点管理 ----------
   - name: "节点选择"
     type: select
@@ -114,10 +40,95 @@ proxy-groups:
     include-all: true
     exclude-filter: "(?i)(剩余|流量|套餐|到期|官网|客服|邀请|机场|群组)"
 
-  - name: "香港节点"
+  # ---------- 服务策略 ----------
+  - name: "AI服务"
+    type: select
+    proxies:
+      - "美国节点"
+      - "节点选择"
+      - "自动选择"
+      - "日本节点"
+      - "新加坡节点"
+      - "手动选择"
+      - DIRECT
+
+  - name: "Wildberries电商"
+    type: select
+    proxies:
+      - DIRECT
+      - "节点选择"
+
+  - name: "Amazon电商"
+    type: select
+    proxies:
+      - DIRECT
+      - "节点选择"
+
+  - name: "X电报"
+    type: select
+    proxies:
+      - "节点选择"
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "手动选择"
+      - DIRECT
+
+  - name: "YouTube"
+    type: select
+    proxies:
+      - "节点选择"
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "手动选择"
+      - DIRECT
+
+  - name: "Spotify"
+    type: select
+    proxies:
+      - "节点选择"
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "手动选择"
+      - DIRECT
+
+  - name: "广告拦截"
+    type: select
+    # REJECT = 开启拦截；DIRECT = 关闭拦截
+    proxies:
+      - REJECT
+      - DIRECT
+
+  - name: "漏网之鱼"
+    type: select
+    proxies:
+      - "节点选择"
+      - "自动选择"
+      - "手动选择"
+      - DIRECT
+
+  # ---------- 地区节点 ----------
+  - name: "AWS亚马逊服务器节点"
     type: url-test
     include-all: true
-    filter: "(?i)(香港|港|HK|Hong ?Kong|HongKong)"
+    filter: "(?i)(AWS|亚马逊|Amazon)"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    lazy: true
+
+  - name: "美国节点"
+    type: url-test
+    include-all: true
+    filter: "(?i)(美国|美|US|USA|United ?States|America|洛杉矶|Los ?Angeles|纽约|New ?York)"
     url: "http://www.gstatic.com/generate_204"
     interval: 300
     tolerance: 50
@@ -141,19 +152,10 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "美国节点"
+  - name: "香港节点"
     type: url-test
     include-all: true
-    filter: "(?i)(美国|美|US|USA|United ?States|America|洛杉矶|Los ?Angeles|纽约|New ?York)"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
-
-  - name: "AWS亚马逊服务器节点"
-    type: url-test
-    include-all: true
-    filter: "(?i)(AWS|亚马逊|Amazon)"
+    filter: "(?i)(香港|港|HK|Hong ?Kong|HongKong)"
     url: "http://www.gstatic.com/generate_204"
     interval: 300
     tolerance: 50
