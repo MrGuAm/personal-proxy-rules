@@ -6,15 +6,15 @@
 
 ## 当前分类
 
-- X电报：Telegram、X
-- AI服务：OpenAI、ChatGPT、Codex、Claude、Gemini
-- YouTube
-- Spotify
-- Amazon电商，默认直连
-- Wildberries电商，默认直连
-- 广告拦截：`REJECT`，可切换为 `DIRECT` 关闭拦截
-- 漏网之鱼：节点选择
-- 节点：香港、日本、新加坡、美国、AWS亚马逊服务器节点
+- ✈️X电报：Telegram、X
+- 🤖 AI服务：OpenAI、ChatGPT、Codex、Claude、Gemini
+- ▶️YouTube
+- 🎵Spotify
+- 🛒Amazon电商，默认直连
+- 🇷🇺Wildberries电商，默认直连
+- 🛡️ 广告拦截：`REJECT`，可切换为 `DIRECT` 关闭拦截
+- 🛟 漏网之鱼：🚀 节点选择
+- 节点：🇭🇰 香港、🇯🇵 日本、🇸🇬 新加坡、🇺🇸 美国、☁️ AWS亚马逊服务器节点
 
 ## 规则源
 

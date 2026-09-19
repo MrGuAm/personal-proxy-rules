@@ -14,19 +14,19 @@ geox-url:
 
 proxy-groups:
   # ---------- 节点管理 ----------
-  - name: "节点选择"
+  - name: "🚀 节点选择"
     type: select
     proxies:
-      - "自动选择"
-      - "手动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "AWS亚马逊服务器节点"
+      - "♻️ 自动选择"
+      - "🛠️ 手动选择"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+      - "🇸🇬 新加坡节点"
+      - "🇺🇸 美国节点"
+      - "☁️ AWS亚马逊服务器节点"
       - DIRECT
 
-  - name: "自动选择"
+  - name: "♻️ 自动选择"
     type: url-test
     include-all: true
     exclude-filter: "(?i)(剩余|流量|套餐|到期|官网|客服|邀请|机场|群组)"
@@ -35,88 +35,88 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "手动选择"
+  - name: "🛠️ 手动选择"
     type: select
     include-all: true
     exclude-filter: "(?i)(剩余|流量|套餐|到期|官网|客服|邀请|机场|群组)"
 
   # ---------- 服务策略 ----------
-  - name: "AI服务"
+  - name: "🤖 AI服务"
     type: select
     proxies:
-      - "美国节点"
-      - "节点选择"
-      - "自动选择"
-      - "日本节点"
-      - "新加坡节点"
-      - "手动选择"
+      - "🇺🇸 美国节点"
+      - "🚀 节点选择"
+      - "♻️ 自动选择"
+      - "🇯🇵 日本节点"
+      - "🇸🇬 新加坡节点"
+      - "🛠️ 手动选择"
       - DIRECT
 
-  - name: "Wildberries电商"
-    type: select
-    proxies:
-      - DIRECT
-      - "节点选择"
-
-  - name: "Amazon电商"
+  - name: "🇷🇺Wildberries电商"
     type: select
     proxies:
       - DIRECT
-      - "节点选择"
+      - "🚀 节点选择"
 
-  - name: "X电报"
+  - name: "🛒Amazon电商"
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "手动选择"
       - DIRECT
+      - "🚀 节点选择"
 
-  - name: "YouTube"
+  - name: "✈️X电报"
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "手动选择"
+      - "🚀 节点选择"
+      - "♻️ 自动选择"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+      - "🇸🇬 新加坡节点"
+      - "🇺🇸 美国节点"
+      - "🛠️ 手动选择"
       - DIRECT
 
-  - name: "Spotify"
+  - name: "▶️YouTube"
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
-      - "香港节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "手动选择"
+      - "🚀 节点选择"
+      - "♻️ 自动选择"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+      - "🇸🇬 新加坡节点"
+      - "🇺🇸 美国节点"
+      - "🛠️ 手动选择"
       - DIRECT
 
-  - name: "广告拦截"
+  - name: "🎵Spotify"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 自动选择"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+      - "🇸🇬 新加坡节点"
+      - "🇺🇸 美国节点"
+      - "🛠️ 手动选择"
+      - DIRECT
+
+  - name: "🛡️ 广告拦截"
     type: select
     # REJECT = 开启拦截；DIRECT = 关闭拦截
     proxies:
       - REJECT
       - DIRECT
 
-  - name: "漏网之鱼"
+  - name: "🛟 漏网之鱼"
     type: select
     proxies:
-      - "节点选择"
-      - "自动选择"
-      - "手动选择"
+      - "🚀 节点选择"
+      - "♻️ 自动选择"
+      - "🛠️ 手动选择"
       - DIRECT
 
   # ---------- 地区节点 ----------
-  - name: "AWS亚马逊服务器节点"
+  - name: "☁️ AWS亚马逊服务器节点"
     type: url-test
     include-all: true
     filter: "(?i)(AWS|亚马逊|Amazon)"
@@ -125,7 +125,7 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "美国节点"
+  - name: "🇺🇸 美国节点"
     type: url-test
     include-all: true
     filter: "(?i)(美国|美|US|USA|United ?States|America|洛杉矶|Los ?Angeles|纽约|New ?York)"
@@ -134,7 +134,7 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "日本节点"
+  - name: "🇯🇵 日本节点"
     type: url-test
     include-all: true
     filter: "(?i)(日本|日|JP|Japan|东京|東京|大阪|Osaka|Tokyo)"
@@ -143,7 +143,7 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "新加坡节点"
+  - name: "🇸🇬 新加坡节点"
     type: url-test
     include-all: true
     filter: "(?i)(新加坡|狮城|SG|Singapore)"
@@ -152,7 +152,7 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-  - name: "香港节点"
+  - name: "🇭🇰 香港节点"
     type: url-test
     include-all: true
     filter: "(?i)(香港|港|HK|Hong ?Kong|HongKong)"
@@ -268,19 +268,19 @@ rule-providers:
 
 rules:
   # ChatGPT/Codex 核心域名优先于广告和隐私规则。
-  - RULE-SET,openai_core,AI服务
+  - RULE-SET,openai_core,🤖 AI服务
   # 本地和广告规则应放在其他服务规则之前。
   - RULE-SET,lan,DIRECT
   - RULE-SET,loya_private,DIRECT
-  - RULE-SET,loya_reject,广告拦截
-  - RULE-SET,privacy,广告拦截
-  - RULE-SET,telegram,X电报
-  - RULE-SET,twitter,X电报
-  - RULE-SET,openai,AI服务
-  - RULE-SET,claude,AI服务
-  - RULE-SET,gemini,AI服务
-  - RULE-SET,youtube,YouTube
-  - RULE-SET,spotify,Spotify
-  - RULE-SET,amazon_shop,Amazon电商
-  - RULE-SET,wildberries,Wildberries电商
-  - MATCH,漏网之鱼
+  - RULE-SET,loya_reject,🛡️ 广告拦截
+  - RULE-SET,privacy,🛡️ 广告拦截
+  - RULE-SET,telegram,✈️X电报
+  - RULE-SET,twitter,✈️X电报
+  - RULE-SET,openai,🤖 AI服务
+  - RULE-SET,claude,🤖 AI服务
+  - RULE-SET,gemini,🤖 AI服务
+  - RULE-SET,youtube,▶️YouTube
+  - RULE-SET,spotify,🎵Spotify
+  - RULE-SET,amazon_shop,🛒Amazon电商
+  - RULE-SET,wildberries,🇷🇺Wildberries电商
+  - MATCH,🛟 漏网之鱼
