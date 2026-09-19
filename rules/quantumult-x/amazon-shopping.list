@@ -1,0 +1,20 @@
+# Amazon shopping only. AWS is intentionally not included here.
+HOST-SUFFIX,amazon.com
+HOST-SUFFIX,amazon.ca
+HOST-SUFFIX,amazon.co.uk
+HOST-SUFFIX,amazon.de
+HOST-SUFFIX,amazon.es
+HOST-SUFFIX,amazon.fr
+HOST-SUFFIX,amazon.in
+HOST-SUFFIX,amazon.it
+HOST-SUFFIX,amazon.co.jp
+HOST-SUFFIX,amazon.com.au
+HOST-SUFFIX,amazon.com.br
+HOST-SUFFIX,amazon.com.mx
+HOST-SUFFIX,amazon.com.tr
+HOST-SUFFIX,amazon.nl
+HOST-SUFFIX,amazon.pl
+HOST-SUFFIX,amazon.se
+HOST-SUFFIX,amazon.sg
+HOST-SUFFIX,amazon.ae
+HOST-SUFFIX,amazon.sa

@@ -1,0 +1,31 @@
+name: Check upstream rules
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 0 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate Mihomo YAML
+        run: ruby -e 'require "yaml"; YAML.load_file("mihomo.yaml"); Dir["rules/mihomo/*.yaml"].each { |file| YAML.load_file(file) }; puts "YAML validation passed"'
+
+      - name: Check remote rule URLs
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -rhoE 'https://[^" ,]+' mihomo.yaml quantumult-x.conf \
+            | sed 's/[),].*$//' \
+            | sort -u \
+            | while IFS= read -r url; do
+                echo "Checking $url"
+                curl --fail --location --retry 3 --retry-delay 2 --silent --show-error --head "$url" >/dev/null
+              done
