@@ -177,7 +177,7 @@ proxy-groups:
       - "🛠️ 手动选择"
       - DIRECT
 
-  - name: "跨境电商"
+  - name: "亚马逊"
     type: select
     proxies:
       - DIRECT
@@ -355,7 +355,7 @@ rules:
   - RULE-SET,apple,DIRECT
   # 自定义服务规则必须先于通用国内直连规则。
   - RULE-SET,aws,AWS
-  - RULE-SET,amazon_shop,跨境电商
+  - RULE-SET,amazon_shop,亚马逊
   - RULE-SET,wildberries,俄罗斯野莓
   # Loyalsoldier 国内域名/IP规则。
   - RULE-SET,loya_direct,🎯 国内直连

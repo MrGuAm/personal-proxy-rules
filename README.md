@@ -12,7 +12,7 @@
 - 国外音乐：Spotify
 - GitHub
 - AWS
-- 跨境电商：Amazon，默认直连
+- 亚马逊：Amazon，默认直连
 - 俄罗斯野莓：Wildberries，默认直连
 - Apple：直连
 - 广告与隐私：REJECT，可切换为 DIRECT 关闭拦截
@@ -40,4 +40,3 @@
 - 地区测速依赖订阅节点名称包含地区关键词，例如“香港 / HK / Hong Kong”。如果机场使用完全不同的命名，需要调整正则表达式。
 - blackmatrix7 和 Loyalsoldier 的远程规则更新周期设为 24 小时；规则源本身的实际发布时间由上游维护计划决定。
 - Mihomo 的 `geosite.dat` 和 `geoip-lite.dat` 使用 MetaCubeX 最新发布地址。
-- GitHub Actions 每天检查上游规则链接和本仓库 YAML 文件；客户端本身按照配置中的 `86400` 秒周期自动更新远程规则。
