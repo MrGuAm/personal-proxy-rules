@@ -283,4 +283,7 @@ rules:
   - RULE-SET,spotify,🎵Spotify
   - RULE-SET,amazon_shop,🛒Amazon电商
   - RULE-SET,wildberries,🇷🇺Wildberries电商
+  # 国内域名和中国大陆 IP 默认直连。
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
   - MATCH,🛟 漏网之鱼
