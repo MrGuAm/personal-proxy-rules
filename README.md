@@ -12,7 +12,7 @@
 - 国外音乐：Spotify
 - GitHub
 - AWS
-- 亚马逊：Amazon，默认直连
+- 亚马逊跨境电商：Amazon，默认直连
 - 俄罗斯野莓：Wildberries，默认直连
 - Apple：直连
 - 广告与隐私：REJECT，可切换为 DIRECT 关闭拦截
