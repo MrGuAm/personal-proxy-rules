@@ -1,5 +1,15 @@
 # 分流配置 v1
 
+## Quantumult X 自动配置
+
+`quantum-x-auto.conf` 由 GitHub Actions 自动生成：以墨鱼官方配置为上游，并将 `quantumult-x.conf` 中的个人 `[policy]`、`[filter_remote]` 和 `[filter_local]` 覆盖回去。
+
+Quantumult X 订阅地址：
+
+`https://raw.githubusercontent.com/MrGuAm/personal-proxy-rules/main/quantum-x-auto.conf`
+
+官方配置每 6 小时检查一次。节点不写入本仓库，由 Sub-Store 或 Quantumult X 的节点订阅单独提供。
+
 这是一套从零设计的 Clash Party（Mihomo）和 Quantumult X 配置模板。
 
 规则源采用分工模式：blackmatrix7 负责跨客户端的服务规则，Loyalsoldier 负责 Clash Party 的基础规则，MetaCubeX 负责 Mihomo 地理数据。
