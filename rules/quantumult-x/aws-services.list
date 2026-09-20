@@ -1,10 +1,10 @@
 # AWS console and cloud service domains. Keep these before Amazon shopping rules.
-HOST-SUFFIX,aws.amazon.com
-HOST-SUFFIX,amazonaws.com
-HOST-SUFFIX,amazonaws.com.cn
-HOST-SUFFIX,amazonaws.cn
-HOST-SUFFIX,awsstatic.com
-HOST-SUFFIX,aws.dev
-HOST-SUFFIX,awscloud.com
-HOST-SUFFIX,aws
-HOST-SUFFIX,console.aws.a2z.com
+host-suffix,aws.amazon.com
+host-suffix,amazonaws.com
+host-suffix,amazonaws.com.cn
+host-suffix,amazonaws.cn
+host-suffix,awsstatic.com
+host-suffix,aws.dev
+host-suffix,awscloud.com
+host-suffix,aws
+host-suffix,console.aws.a2z.com
