@@ -2,13 +2,15 @@
 
 ## Quantumult X 自动配置
 
-`quantum-x-auto.conf` 由 GitHub Actions 自动生成：以墨鱼官方配置为上游，并将 `quantumult-x.conf` 中的个人 `[policy]`、`[filter_remote]` 和 `[filter_local]` 覆盖回去。
+`quantum-x-auto.conf` 由 GitHub Actions 自动生成：以墨鱼官方配置为上游，采用官方通用设置、任务和重写；采用个人策略组；合并官方与个人分流并自动去重。
 
 Quantumult X 订阅地址：
 
 `https://raw.githubusercontent.com/MrGuAm/personal-proxy-rules/main/quantum-x-auto.conf`
 
-官方配置每 6 小时检查一次。节点不写入本仓库，由 Sub-Store 或 Quantumult X 的节点订阅单独提供。
+官方配置每 6 小时检查一次。生成时会保留官方 DNS，但删除 `no-ipv6` 以允许 IPv6；官方临时节点订阅会替换为个人 Sub-Store Raw 地址，节点内容不直接写入本仓库。
+
+合并分流时，相同远程规则 URL 和相同本地匹配目标以个人配置为准。官方规则引用的策略会映射到现有个人策略组，宽泛的国际媒体、全球代理和国内规则放在个人服务规则之后，避免提前覆盖 Telegram、AI、YouTube、电商等个人分流。
 
 这是一套从零设计的 Clash Party（Mihomo）和 Quantumult X 配置模板。
 

@@ -13,7 +13,22 @@ from pathlib import Path
 UPSTREAM_URL = "https://ddgksf2013.top/Profile/QuantumultX.conf"
 SECTION_RE = re.compile(r"^\[([^\]]+)\]\s*$")
 SECTION_NAMES = {"general", "task_local", "rewrite_local", "rewrite_remote", "server_local", "server_remote", "dns", "policy", "filter_remote", "filter_local", "http_backend", "mitm"}
-PERSONAL_OVERRIDE_SECTIONS = {"policy", "filter_remote", "filter_local"}
+PERSONAL_OVERRIDE_SECTIONS = {"policy"}
+PERSONAL_SERVER_REMOTE = """[server_remote]
+
+# > 个人 Sub-Store 节点订阅
+https://gist.githubusercontent.com/MrGuAm/303b62a808f08b9c709df6fa9f0fe6d4/raw/quantumultx, tag=节点合集, update-interval=172800, opt-parser=false, enabled=true
+"""
+
+# 官方分流使用官方策略组名称。合并到个人策略组时必须改成实际存在的名称。
+POLICY_MAP = {
+    "声田音乐": "🎵Spotify",
+    "国际媒体": "🚀 节点选择",
+    "哔哩哔哩": "direct",
+    "苹果服务": "direct",
+    "全球加速": "🚀 节点选择",
+    "兜底分流": "🛟 漏网之鱼",
+}
 
 
 def split_sections(text: str) -> tuple[str, list[tuple[str, str]]]:
@@ -30,6 +45,94 @@ def split_sections(text: str) -> tuple[str, list[tuple[str, str]]]:
 
 def meaningful(section: str) -> bool:
     return any(line.strip() and not line.lstrip().startswith(("#", ";")) for line in section.splitlines()[1:])
+
+
+def body_lines(section: str) -> list[str]:
+    """Return active (non-comment) lines below a section header."""
+    return [
+        line.strip()
+        for line in section.splitlines()[1:]
+        if line.strip() and not line.lstrip().startswith(("#", ";"))
+    ]
+
+
+def resource_url(line: str) -> str:
+    return line.split(",", 1)[0].strip()
+
+
+def map_official_policy(line: str) -> str:
+    """Map an official filter resource to one of the personal policy groups."""
+    match = re.search(r"force-policy=([^,]+)", line)
+    if not match:
+        return line
+    policy = match.group(1).strip()
+    if "ddgksf2013.top/filter/Ai.yaml" in line:
+        replacement = "🤖 AI服务"
+    elif policy == "美国节点":
+        replacement = "🇺🇸 美国节点"
+    elif policy == "reject":
+        replacement = "🛡️ 广告拦截"
+    else:
+        replacement = POLICY_MAP.get(policy, policy)
+    return line[:match.start(1)] + replacement + line[match.end(1):]
+
+
+def merge_filter_remote(official: str, personal: str) -> str:
+    """Merge resource lists, preferring personal entries with the same URL."""
+    personal_lines = body_lines(personal)
+    personal_urls = {resource_url(line) for line in personal_lines}
+    official_lines = [
+        map_official_policy(line)
+        for line in body_lines(official)
+        if resource_url(line) not in personal_urls
+    ]
+
+    # Put broad catch-all resources last so they cannot shadow personal service rules.
+    broad_markers = ("/Streaming.list", "/Proxy.list", "/ASN.China.list")
+    specific = [line for line in official_lines if not any(marker in line for marker in broad_markers)]
+    broad = [line for line in official_lines if any(marker in line for marker in broad_markers)]
+
+    lines = ["[filter_remote]", "", "# ======= 墨鱼官方规则（策略已映射到个人策略组） ======= #"]
+    lines.extend(specific)
+    lines.extend(["", "# ======= 个人规则（同 URL 时优先） ======= #"])
+    lines.extend(personal_lines)
+    lines.extend(["", "# ======= 墨鱼官方宽泛/兜底规则（放在最后） ======= #"])
+    lines.extend(broad)
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def local_rule_key(line: str) -> tuple[str, ...]:
+    fields = tuple(field.strip().lower() for field in line.split(","))
+    if not fields:
+        return fields
+    if fields[0] == "final":
+        return ("final",)
+    return fields[:2]
+
+
+def merge_filter_local(official: str, personal: str) -> str:
+    """Merge local rules by match target, preferring personal policy choices."""
+    personal_lines = body_lines(personal)
+    personal_keys = {local_rule_key(line) for line in personal_lines}
+    official_lines = [line for line in body_lines(official) if local_rule_key(line) not in personal_keys]
+    lines = ["[filter_local]", "", "# ======= 墨鱼官方本地规则 ======= #"]
+    lines.extend(official_lines)
+    lines.extend(["", "# ======= 个人本地规则（重复目标时优先） ======= #"])
+    lines.extend(personal_lines)
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def enable_ipv6(dns_section: str) -> str:
+    """Follow the official DNS section but remove its IPv6 disabling directive."""
+    lines = []
+    for line in dns_section.splitlines():
+        if line.strip().lower() == "no-ipv6":
+            continue
+        if "QuantumultX开启IPV6方法" in line:
+            lines.append("# > 已按个人要求删除 no-ipv6；还需在 Quantumult X 的 VPN 设置中开启兼容性增强")
+        else:
+            lines.append(line)
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def fetch_upstream() -> str:
@@ -57,8 +160,18 @@ def build(personal_path: Path, output_path: Path) -> None:
     output = [upstream_prefix]
     for name, body in upstream_sections:
         if name == "server_remote":
-            # The upstream file contains a temporary public node subscription.
-            # Nodes are supplied separately by the user's Sub-Store workflow.
+            # Never publish the upstream temporary subscription; use the user's
+            # stable Sub-Store endpoint confirmed for this profile.
+            output.append(PERSONAL_SERVER_REMOTE)
+            continue
+        if name == "dns":
+            output.append(enable_ipv6(body))
+            continue
+        if name == "filter_remote":
+            output.append(merge_filter_remote(body, personal_map[name]))
+            continue
+        if name == "filter_local":
+            output.append(merge_filter_local(body, personal_map[name]))
             continue
         if name in PERSONAL_OVERRIDE_SECTIONS and name in personal_map and meaningful(personal_map[name]):
             output.append(personal_map[name].rstrip() + "\n")
@@ -74,8 +187,14 @@ def validate(path: Path) -> None:
     names = [name for name, _ in sections]
     if names.count("policy") != 1 or names.count("filter_remote") != 1 or names.count("filter_local") != 1:
         raise ValueError("generated config must have exactly one policy/filter_remote/filter_local section")
-    if "server_remote" in names:
+    if names.count("server_remote") != 1:
+        raise ValueError("generated config must have exactly one server_remote section")
+    if "Ruk1ng001/freeSub" in text:
         raise ValueError("generated config must not include upstream temporary server_remote")
+    if "303b62a808f08b9c709df6fa9f0fe6d4/raw/quantumultx" not in text:
+        raise ValueError("personal Sub-Store subscription was not included")
+    if re.search(r"(?m)^\s*no-ipv6\s*$", text):
+        raise ValueError("generated config must leave IPv6 enabled")
     if "[rewrite_remote]" not in text or "BiliBiliAdsLite.conf" not in text:
         raise ValueError("official rewrite_remote section was not included")
     if "quantumult-x.conf" not in text and "🤖 AI服务" not in text:
