@@ -13,7 +13,7 @@ from pathlib import Path
 UPSTREAM_URL = "https://ddgksf2013.top/Profile/QuantumultX.conf"
 SECTION_RE = re.compile(r"^\[([^\]]+)\]\s*$")
 SECTION_NAMES = {"general", "task_local", "rewrite_local", "rewrite_remote", "server_local", "server_remote", "dns", "policy", "filter_remote", "filter_local", "http_backend", "mitm"}
-PERSONAL_OVERRIDE_SECTIONS = {"policy"}
+PERSONAL_OVERRIDE_SECTIONS = {"policy", "mitm"}
 OFFICIAL_SERVER_REMOTE = """[server_remote]
 
 # > 墨鱼官方临时订阅
@@ -197,8 +197,8 @@ def validate(path: Path) -> None:
         raise ValueError("official rewrite_remote section was not included")
     if "quantumult-x.conf" not in text and "🤖 AI平台" not in text:
         raise ValueError("personal policy overlay was not included")
-    if "p12 =" in text or "passphrase =" in text:
-        raise ValueError("private MITM material must not be published by this repository")
+    if "p12 =" not in text or "passphrase =" not in text:
+        raise ValueError("personal MITM material was not included")
     if re.search(r"(?i)^(?:vmess|vless|trojan|ss|ssr|hysteria2?)://", text, re.MULTILINE):
         raise ValueError("node URLs must not be committed")
 
