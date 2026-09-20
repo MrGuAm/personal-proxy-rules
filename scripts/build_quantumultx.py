@@ -152,6 +152,50 @@ def fetch_upstream() -> str:
     return result.stdout.decode("utf-8")
 
 
+def fetch_private_server_tags(server_remote: str) -> list[str]:
+    """Fetch only node tags for the local static manual policy group."""
+    source_url = next(
+        (line.split(",", 1)[0].strip() for line in body_lines(server_remote)
+         if line.startswith(("http://", "https://"))),
+        None,
+    )
+    if not source_url:
+        return []
+    result = subprocess.run(
+        ["curl", "--fail", "--location", "--silent", "--show-error",
+         "--retry", "3", "--connect-timeout", "20", "--max-time", "120",
+         source_url],
+        check=True,
+        capture_output=True,
+    )
+    tags = []
+    seen = set()
+    for line in result.stdout.decode("utf-8", errors="replace").splitlines():
+        if "enabled=false" in line.lower():
+            continue
+        match = re.search(r"(?:^|,\s*)tag\s*=\s*([^,\r\n]+)", line)
+        if match:
+            tag = match.group(1).strip()
+            if tag and tag not in seen:
+                seen.add(tag)
+                tags.append(tag)
+    return tags
+
+
+def expand_local_manual_policy(policy: str, server_remote: str) -> str:
+    """Make the local manual group static so unhealthy nodes remain selectable."""
+    tags = fetch_private_server_tags(server_remote)
+    if not tags:
+        return policy
+    lines = []
+    for line in policy.splitlines():
+        if line.startswith("available=🛠️ 手动选择,"):
+            lines.append("static=🛠️ 手动选择, " + ", ".join(tags))
+        else:
+            lines.append(line)
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def build(personal_path: Path, output_path: Path, private_path: Path | None = None) -> None:
     upstream_prefix, upstream_sections = split_sections(fetch_upstream())
     _, personal_sections = split_sections(personal_path.read_text(encoding="utf-8"))
@@ -160,6 +204,11 @@ def build(personal_path: Path, output_path: Path, private_path: Path | None = No
     if private_path:
         _, private_sections = split_sections(private_path.read_text(encoding="utf-8"))
         private_map = {name: body for name, body in private_sections}
+    local_manual_policy = None
+    if private_path and "server_remote" in private_map:
+        local_manual_policy = expand_local_manual_policy(
+            personal_map["policy"], private_map["server_remote"]
+        )
 
     output = [upstream_prefix]
     for name, body in upstream_sections:
@@ -179,7 +228,8 @@ def build(personal_path: Path, output_path: Path, private_path: Path | None = No
             output.append(private_map[name].rstrip() + "\n")
             continue
         if name in PERSONAL_OVERRIDE_SECTIONS and name in personal_map and meaningful(personal_map[name]):
-            output.append(personal_map[name].rstrip() + "\n")
+            policy = local_manual_policy if name == "policy" and local_manual_policy else personal_map[name]
+            output.append(policy.rstrip() + "\n")
         else:
             output.append(body)
 
