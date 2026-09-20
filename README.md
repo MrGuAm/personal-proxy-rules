@@ -19,7 +19,7 @@ Quantumult X 订阅地址：
 ## 当前分类
 
 - ✈️X电报：Telegram、X
-- 🤖 AI服务：OpenAI、ChatGPT、Codex、Claude、Gemini
+- 🤖 AI平台：OpenAI、ChatGPT、Codex、Claude、Gemini
 - ▶️YouTube
 - 🎵Spotify
 - Apple 服务：直连

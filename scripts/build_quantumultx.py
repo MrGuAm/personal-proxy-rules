@@ -67,7 +67,7 @@ def map_official_policy(line: str) -> str:
         return line
     policy = match.group(1).strip()
     if "ddgksf2013.top/filter/Ai.yaml" in line:
-        replacement = "🤖 AI服务"
+        replacement = "🤖 AI平台"
     elif policy == "美国节点":
         replacement = "🇺🇸 美国节点"
     elif policy == "reject":
@@ -195,7 +195,7 @@ def validate(path: Path) -> None:
         raise ValueError("generated config must leave IPv6 enabled")
     if "[rewrite_remote]" not in text or "BiliBiliAdsLite.conf" not in text:
         raise ValueError("official rewrite_remote section was not included")
-    if "quantumult-x.conf" not in text and "🤖 AI服务" not in text:
+    if "quantumult-x.conf" not in text and "🤖 AI平台" not in text:
         raise ValueError("personal policy overlay was not included")
     if "p12 =" in text or "passphrase =" in text:
         raise ValueError("private MITM material must not be published by this repository")

@@ -41,7 +41,7 @@ proxy-groups:
     exclude-filter: "(?i)(剩余|流量|套餐|到期|官网|客服|邀请|机场|群组)"
 
   # ---------- 服务策略 ----------
-  - name: "🤖 AI服务"
+  - name: "🤖 AI平台"
     type: select
     proxies:
       - "🇺🇸 美国节点"
@@ -290,7 +290,7 @@ rule-providers:
 
 rules:
   # ChatGPT/Codex 核心域名优先于广告和隐私规则。
-  - RULE-SET,openai_core,🤖 AI服务
+  - RULE-SET,openai_core,🤖 AI平台
   # 用户指定直连域名，优先于广告、隐私和其他远程规则。
   - RULE-SET,direct_domains,DIRECT
   # 本地和广告规则应放在其他服务规则之前。
@@ -300,9 +300,9 @@ rules:
   - RULE-SET,privacy,🛡️ 广告拦截
   - RULE-SET,telegram,✈️X电报
   - RULE-SET,twitter,✈️X电报
-  - RULE-SET,openai,🤖 AI服务
-  - RULE-SET,claude,🤖 AI服务
-  - RULE-SET,gemini,🤖 AI服务
+  - RULE-SET,openai,🤖 AI平台
+  - RULE-SET,claude,🤖 AI平台
+  - RULE-SET,gemini,🤖 AI平台
   - RULE-SET,youtube,▶️YouTube
   - RULE-SET,spotify,🎵Spotify
   # Apple 服务直连，覆盖推送、登录、App Store 和 iCloud 等域名。
