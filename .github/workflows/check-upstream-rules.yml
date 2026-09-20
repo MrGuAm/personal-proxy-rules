@@ -22,11 +22,31 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sed -E '/^[[:space:]]*(#|;|\/\/)/d' mihomo.yaml quantumult-x.conf quantum-x-auto.conf \
-            | grep -oE 'https://[^" ,]+' \
-            | sed 's/[),].*$//' \
-            | sort -u \
-            | while IFS= read -r url; do
+          urls_file="$(mktemp)"
+          trap 'rm -f "$urls_file"' EXIT
+
+          ruby -ryaml -e '
+            config = YAML.load_file("mihomo.yaml")
+            config.fetch("rule-providers", {}).each_value do |provider|
+              next unless provider.is_a?(Hash) && provider["type"] == "http"
+              puts provider["url"] if provider["url"]
+            end
+          ' > "$urls_file"
+
+          for config in quantumult-x.conf quantum-x-auto.conf; do
+            awk '
+              /^\[filter_remote\][[:space:]]*$/ { in_filter_remote = 1; next }
+              /^\[[^]]+\][[:space:]]*$/ { in_filter_remote = 0 }
+              in_filter_remote && /^[[:space:]]*https:\/\// {
+                url = $0
+                sub(/^[[:space:]]*/, "", url)
+                sub(/,.*/, "", url)
+                print url
+              }
+            ' "$config" >> "$urls_file"
+          done
+
+          sort -u "$urls_file" | while IFS= read -r url; do
                 echo "Checking $url"
                 curl --fail --location --retry 6 --retry-all-errors --retry-delay 3 \
                   --connect-timeout 20 --max-time 120 \
