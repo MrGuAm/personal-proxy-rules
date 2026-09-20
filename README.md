@@ -22,6 +22,7 @@ Quantumult X 订阅地址：
 - 🤖 AI服务：OpenAI、ChatGPT、Codex、Claude、Gemini
 - ▶️YouTube
 - 🎵Spotify
+- Apple 服务：直连
 - 🛒Amazon电商，默认直连
 - 🇷🇺Wildberries电商，默认直连
 - 🛡️ 广告拦截：`REJECT`，可切换为 `DIRECT` 关闭拦截
@@ -48,6 +49,7 @@ Quantumult X 订阅地址：
 - `quantumult-x.conf` 中的节点标签由 SubStore/圈X订阅提供；本文件负责策略组和远程分流。
 - AWS亚马逊服务器节点是根据订阅节点名称筛选出来的节点组，名称中需要包含 `AWS`、`亚马逊` 或 `Amazon`。
 - AWS 控制台和云服务域名优先走“🛟 漏网之鱼”策略，不会被 Amazon 电商规则覆盖。
+- Apple 服务（包括 `*.apple.com`、`*.icloud.com` 等）默认直连。
 - Amazon电商规则只负责 Amazon 购物网站，默认直连。
 - 地区测速依赖订阅节点名称包含地区关键词，例如“香港 / HK / Hong Kong”。如果机场使用完全不同的命名，需要调整正则表达式。
 - blackmatrix7 和 Loyalsoldier 的远程规则更新周期设为 24 小时；规则源本身的实际发布时间由上游维护计划决定。
