@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Validate Mihomo YAML
         run: ruby -e 'require "yaml"; YAML.load_file("mihomo.yaml"); Dir["rules/mihomo/*.yaml"].each { |file| YAML.load_file(file) }; puts "YAML validation passed"'
