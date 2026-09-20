@@ -18,7 +18,7 @@ Quantumult X 订阅地址：
 bash scripts/build_quantumultx_local.sh
 ```
 
-这会生成被 Git 忽略的 `quantum-x-local.conf`，其中才包含个人节点订阅和 MITM。圈 X 使用该本地文件时，配置更新需要在本机重新合成；公开 Raw 自动配置不含任何私密数据。
+这会直接更新圈 X iCloud Profiles 目录中的 `quantum-x-local.conf`，其中才包含个人节点订阅和 MITM。该文件不会进入 Git；圈 X 使用该本地文件时，配置更新需要在本机重新合成，公开 Raw 自动配置不含任何私密数据。
 
 合并分流时，相同远程规则 URL 和相同本地匹配目标以个人配置为准。官方规则引用的策略会映射到现有个人策略组，宽泛的国际媒体、全球代理和国内规则放在个人服务规则之后，避免提前覆盖 Telegram、AI、YouTube、电商等个人分流。
 
