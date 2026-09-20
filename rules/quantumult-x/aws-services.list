@@ -6,3 +6,5 @@ HOST-SUFFIX,amazonaws.cn
 HOST-SUFFIX,awsstatic.com
 HOST-SUFFIX,aws.dev
 HOST-SUFFIX,awscloud.com
+HOST-SUFFIX,aws
+HOST-SUFFIX,console.aws.a2z.com
