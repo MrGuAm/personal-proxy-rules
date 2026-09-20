@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -rhoE 'https://[^" ,]+' mihomo.yaml quantumult-x.conf \
+          grep -rhoE 'https://[^" ,]+' mihomo.yaml quantumult-x.conf quantum-x-auto.conf \
             | sed 's/[),].*$//' \
             | sort -u \
             | while IFS= read -r url; do
