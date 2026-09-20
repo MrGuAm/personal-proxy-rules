@@ -14,10 +14,10 @@ UPSTREAM_URL = "https://ddgksf2013.top/Profile/QuantumultX.conf"
 SECTION_RE = re.compile(r"^\[([^\]]+)\]\s*$")
 SECTION_NAMES = {"general", "task_local", "rewrite_local", "rewrite_remote", "server_local", "server_remote", "dns", "policy", "filter_remote", "filter_local", "http_backend", "mitm"}
 PERSONAL_OVERRIDE_SECTIONS = {"policy"}
-PERSONAL_SERVER_REMOTE = """[server_remote]
+OFFICIAL_SERVER_REMOTE = """[server_remote]
 
-# > 个人 Sub-Store 节点订阅
-https://gist.githubusercontent.com/MrGuAm/303b62a808f08b9c709df6fa9f0fe6d4/raw/quantumultx, tag=节点合集, update-interval=172800, opt-parser=false, enabled=true
+# > 墨鱼官方临时订阅
+https://raw.githubusercontent.com/Ruk1ng001/freeSub/main/clash.yaml#delreg=.*&rename=@tg%40ddgksf2021-+@num-$index7, tag=🐟临时使用, update-interval=3600, opt-parser=true, enabled=true
 """
 
 # 官方分流使用官方策略组名称。合并到个人策略组时必须改成实际存在的名称。
@@ -160,9 +160,7 @@ def build(personal_path: Path, output_path: Path) -> None:
     output = [upstream_prefix]
     for name, body in upstream_sections:
         if name == "server_remote":
-            # Never publish the upstream temporary subscription; use the user's
-            # stable Sub-Store endpoint confirmed for this profile.
-            output.append(PERSONAL_SERVER_REMOTE)
+            output.append(OFFICIAL_SERVER_REMOTE)
             continue
         if name == "dns":
             output.append(enable_ipv6(body))
@@ -189,10 +187,10 @@ def validate(path: Path) -> None:
         raise ValueError("generated config must have exactly one policy/filter_remote/filter_local section")
     if names.count("server_remote") != 1:
         raise ValueError("generated config must have exactly one server_remote section")
-    if "Ruk1ng001/freeSub" in text:
-        raise ValueError("generated config must not include upstream temporary server_remote")
-    if "303b62a808f08b9c709df6fa9f0fe6d4/raw/quantumultx" not in text:
-        raise ValueError("personal Sub-Store subscription was not included")
+    if "Ruk1ng001/freeSub" not in text:
+        raise ValueError("official server_remote subscription was not included")
+    if "gist.githubusercontent.com" in text:
+        raise ValueError("personal subscription URL must not be published")
     if re.search(r"(?m)^\s*no-ipv6\s*$", text):
         raise ValueError("generated config must leave IPv6 enabled")
     if "[rewrite_remote]" not in text or "BiliBiliAdsLite.conf" not in text:

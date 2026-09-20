@@ -8,7 +8,7 @@ Quantumult X 订阅地址：
 
 `https://raw.githubusercontent.com/MrGuAm/personal-proxy-rules/main/quantum-x-auto.conf`
 
-官方配置每 6 小时检查一次。生成时会保留官方 DNS，但删除 `no-ipv6` 以允许 IPv6；官方临时节点订阅会替换为个人 Sub-Store Raw 地址，节点内容不直接写入本仓库。
+官方配置每 6 小时检查一次。生成时会保留官方 DNS，但删除 `no-ipv6` 以允许 IPv6，并采用墨鱼官方的临时节点订阅。个人节点订阅地址不会写入本仓库。
 
 合并分流时，相同远程规则 URL 和相同本地匹配目标以个人配置为准。官方规则引用的策略会映射到现有个人策略组，宽泛的国际媒体、全球代理和国内规则放在个人服务规则之后，避免提前覆盖 Telegram、AI、YouTube、电商等个人分流。
 
