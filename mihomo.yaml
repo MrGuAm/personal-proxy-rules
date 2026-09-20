@@ -307,8 +307,8 @@ rules:
   - RULE-SET,spotify,🎵Spotify
   # Apple 服务直连，覆盖推送、登录、App Store 和 iCloud 等域名。
   - RULE-SET,apple_services,DIRECT
-  # AWS 控制台和云服务域名优先于 amazon.com 电商后缀。
-  - RULE-SET,aws_services,🛟 漏网之鱼
+  # AWS 控制台和云服务域名直连，优先于 amazon.com 电商后缀。
+  - RULE-SET,aws_services,DIRECT
   - RULE-SET,amazon_shop,🛒Amazon电商
   - RULE-SET,wildberries,🇷🇺Wildberries电商
   # 国内域名和中国大陆 IP 默认直连。

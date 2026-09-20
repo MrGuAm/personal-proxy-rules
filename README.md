@@ -48,7 +48,7 @@ Quantumult X 订阅地址：
 - `mihomo.yaml` 中的节点由 SubStore 合并你的机场订阅后提供。
 - `quantumult-x.conf` 中的节点标签由 SubStore/圈X订阅提供；本文件负责策略组和远程分流。
 - AWS亚马逊服务器节点是根据订阅节点名称筛选出来的节点组，名称中需要包含 `AWS`、`亚马逊` 或 `Amazon`。
-- AWS 控制台和云服务域名优先走“🛟 漏网之鱼”策略，不会被 Amazon 电商规则覆盖。
+- AWS 控制台和云服务域名默认直连，不会被 Amazon 电商规则覆盖。
 - Apple 服务（包括 `*.apple.com`、`*.icloud.com` 等）默认直连。
 - Amazon电商规则只负责 Amazon 购物网站，默认直连。
 - 地区测速依赖订阅节点名称包含地区关键词，例如“香港 / HK / Hong Kong”。如果机场使用完全不同的命名，需要调整正则表达式。
