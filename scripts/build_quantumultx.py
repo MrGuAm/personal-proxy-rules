@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 UPSTREAM_URL = "https://ddgksf2013.top/Profile/QuantumultX.conf"
+WECHAT_RULE_URL = "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/WeChat/WeChat.list"
 SECTION_RE = re.compile(r"^\[([^\]]+)\]\s*$")
 SECTION_NAMES = {"general", "task_local", "rewrite_local", "rewrite_remote", "server_local", "server_remote", "dns", "policy", "filter_remote", "filter_local", "http_backend", "mitm"}
 PERSONAL_OVERRIDE_SECTIONS = {"policy"}
@@ -81,6 +82,14 @@ def merge_filter_remote(official: str, personal: str) -> str:
     """Merge resource lists, preferring personal entries with the same URL."""
     personal_lines = body_lines(personal)
     personal_urls = {resource_url(line) for line in personal_lines}
+    # WeChat's image CDN must bypass advertising lists and broad proxy lists.
+    # Keep its direct list at the very front of the generated filter order.
+    priority_direct = [
+        line for line in personal_lines if resource_url(line) == WECHAT_RULE_URL
+    ]
+    personal_lines = [
+        line for line in personal_lines if resource_url(line) != WECHAT_RULE_URL
+    ]
     official_lines = [
         map_official_policy(line)
         for line in body_lines(official)
@@ -92,7 +101,11 @@ def merge_filter_remote(official: str, personal: str) -> str:
     specific = [line for line in official_lines if not any(marker in line for marker in broad_markers)]
     broad = [line for line in official_lines if any(marker in line for marker in broad_markers)]
 
-    lines = ["[filter_remote]", "", "# ======= 墨鱼官方规则（策略已映射到个人策略组） ======= #"]
+    lines = ["[filter_remote]"]
+    if priority_direct:
+        lines.extend(["", "# ======= 优先直连规则 ======= #"])
+        lines.extend(priority_direct)
+    lines.extend(["", "# ======= 墨鱼官方规则（策略已映射到个人策略组） ======= #"])
     lines.extend(specific)
     lines.extend(["", "# ======= 个人规则（同 URL 时优先） ======= #"])
     lines.extend(personal_lines)
