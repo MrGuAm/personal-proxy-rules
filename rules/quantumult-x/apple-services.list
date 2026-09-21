@@ -1,5 +1,5 @@
 # Apple services should connect directly.
-HOST-SUFFIX,apple.com
-HOST-SUFFIX,icloud.com
-HOST-SUFFIX,apple-cloudkit.com
-HOST-SUFFIX,mzstatic.com
+HOST-SUFFIX,apple.com,direct
+HOST-SUFFIX,icloud.com,direct
+HOST-SUFFIX,apple-cloudkit.com,direct
+HOST-SUFFIX,mzstatic.com,direct

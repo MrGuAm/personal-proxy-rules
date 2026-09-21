@@ -10,6 +10,16 @@ Quantumult X 订阅地址：
 
 官方配置每 6 小时检查一次。生成时会保留官方 DNS，但删除 `no-ipv6` 以允许 IPv6，并采用墨鱼官方的临时节点订阅。个人节点订阅地址不会写入本仓库。
 
+### 本地私密合成
+
+个人节点订阅和 MITM 证书不能与公开 GitHub 配置共存。将 `quantumult-x.private.conf.example` 复制为 `quantumult-x.private.conf` 并填写私密内容后，在本机运行：
+
+```bash
+bash scripts/build_quantumultx_local.sh
+```
+
+这会直接更新圈 X iCloud Profiles 目录中的 `quantum-x-local.conf`，其中才包含个人节点订阅和 MITM。该文件不会进入 Git；圈 X 使用该本地文件时，配置更新需要在本机重新合成，公开 Raw 自动配置不含任何私密数据。
+
 合并分流时，相同远程规则 URL 和相同本地匹配目标以个人配置为准。官方规则引用的策略会映射到现有个人策略组，宽泛的国际媒体、全球代理和国内规则放在个人服务规则之后，避免提前覆盖 Telegram、AI、YouTube、电商等个人分流。
 
 这是一套从零设计的 Clash Party（Mihomo）和 Quantumult X 配置模板。

@@ -152,15 +152,68 @@ def fetch_upstream() -> str:
     return result.stdout.decode("utf-8")
 
 
-def build(personal_path: Path, output_path: Path) -> None:
+def fetch_private_server_tags(server_remote: str) -> list[str]:
+    """Fetch only node tags for the local static manual policy group."""
+    source_url = next(
+        (line.split(",", 1)[0].strip() for line in body_lines(server_remote)
+         if line.startswith(("http://", "https://"))),
+        None,
+    )
+    if not source_url:
+        return []
+    result = subprocess.run(
+        ["curl", "--fail", "--location", "--silent", "--show-error",
+         "--retry", "3", "--connect-timeout", "20", "--max-time", "120",
+         source_url],
+        check=True,
+        capture_output=True,
+    )
+    tags = []
+    seen = set()
+    for line in result.stdout.decode("utf-8", errors="replace").splitlines():
+        if "enabled=false" in line.lower():
+            continue
+        match = re.search(r"(?:^|,\s*)tag\s*=\s*([^,\r\n]+)", line)
+        if match:
+            tag = match.group(1).strip()
+            if tag and tag not in seen:
+                seen.add(tag)
+                tags.append(tag)
+    return tags
+
+
+def expand_local_manual_policy(policy: str, server_remote: str) -> str:
+    """Make the local manual group static so unhealthy nodes remain selectable."""
+    tags = fetch_private_server_tags(server_remote)
+    if not tags:
+        return policy
+    lines = []
+    for line in policy.splitlines():
+        if line.startswith("available=🛠️ 手动选择,"):
+            lines.append("static=🛠️ 手动选择, " + ", ".join(tags))
+        else:
+            lines.append(line)
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def build(personal_path: Path, output_path: Path, private_path: Path | None = None) -> None:
     upstream_prefix, upstream_sections = split_sections(fetch_upstream())
     _, personal_sections = split_sections(personal_path.read_text(encoding="utf-8"))
     personal_map = {name: body for name, body in personal_sections}
+    private_map = {}
+    if private_path:
+        _, private_sections = split_sections(private_path.read_text(encoding="utf-8"))
+        private_map = {name: body for name, body in private_sections}
+    local_manual_policy = None
+    if private_path and "server_remote" in private_map:
+        local_manual_policy = expand_local_manual_policy(
+            personal_map["policy"], private_map["server_remote"]
+        )
 
     output = [upstream_prefix]
     for name, body in upstream_sections:
         if name == "server_remote":
-            output.append(OFFICIAL_SERVER_REMOTE)
+            output.append(private_map.get(name, OFFICIAL_SERVER_REMOTE))
             continue
         if name == "dns":
             output.append(enable_ipv6(body))
@@ -171,15 +224,19 @@ def build(personal_path: Path, output_path: Path) -> None:
         if name == "filter_local":
             output.append(merge_filter_local(body, personal_map[name]))
             continue
+        if name == "mitm" and name in private_map and meaningful(private_map[name]):
+            output.append(private_map[name].rstrip() + "\n")
+            continue
         if name in PERSONAL_OVERRIDE_SECTIONS and name in personal_map and meaningful(personal_map[name]):
-            output.append(personal_map[name].rstrip() + "\n")
+            policy = local_manual_policy if name == "policy" and local_manual_policy else personal_map[name]
+            output.append(policy.rstrip() + "\n")
         else:
             output.append(body)
 
     output_path.write_text("\n".join(part.rstrip("\n") for part in output).rstrip() + "\n", encoding="utf-8")
 
 
-def validate(path: Path) -> None:
+def validate(path: Path, private_overlay: bool = False) -> None:
     text = path.read_text(encoding="utf-8")
     _, sections = split_sections(text)
     names = [name for name, _ in sections]
@@ -187,18 +244,22 @@ def validate(path: Path) -> None:
         raise ValueError("generated config must have exactly one policy/filter_remote/filter_local section")
     if names.count("server_remote") != 1:
         raise ValueError("generated config must have exactly one server_remote section")
-    if "Ruk1ng001/freeSub" not in text:
-        raise ValueError("official server_remote subscription was not included")
-    if "gist.githubusercontent.com" in text:
-        raise ValueError("personal subscription URL must not be published")
+    if private_overlay:
+        if "p12 =" not in text or "passphrase =" not in text:
+            raise ValueError("private MITM material was not included")
+    else:
+        if "Ruk1ng001/freeSub" not in text:
+            raise ValueError("official server_remote subscription was not included")
+        if "gist.githubusercontent.com" in text:
+            raise ValueError("personal subscription URL must not be published")
+        if "p12 =" in text or "passphrase =" in text:
+            raise ValueError("private MITM material must not be published")
     if re.search(r"(?m)^\s*no-ipv6\s*$", text):
         raise ValueError("generated config must leave IPv6 enabled")
     if "[rewrite_remote]" not in text or "BiliBiliAdsLite.conf" not in text:
         raise ValueError("official rewrite_remote section was not included")
     if "quantumult-x.conf" not in text and "🤖 AI平台" not in text:
         raise ValueError("personal policy overlay was not included")
-    if "p12 =" in text or "passphrase =" in text:
-        raise ValueError("private MITM material must not be published by this repository")
     if re.search(r"(?i)^(?:vmess|vless|trojan|ss|ssr|hysteria2?)://", text, re.MULTILINE):
         raise ValueError("node URLs must not be committed")
 
@@ -231,11 +292,12 @@ def validate(path: Path) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) != 3:
-        raise SystemExit("usage: build_quantumultx.py personal.conf output.conf")
+    if len(sys.argv) not in {3, 4}:
+        raise SystemExit("usage: build_quantumultx.py personal.conf output.conf [private-overlay.conf]")
     output = Path(sys.argv[2])
-    build(Path(sys.argv[1]), output)
-    validate(output)
+    private_path = Path(sys.argv[3]) if len(sys.argv) == 4 else None
+    build(Path(sys.argv[1]), output, private_path)
+    validate(output, private_path is not None)
 
 
 if __name__ == "__main__":

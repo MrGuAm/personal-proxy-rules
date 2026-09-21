@@ -1,0 +1,12 @@
+# Copy this file to quantumult-x.private.conf locally, then fill in your own values.
+# The copied file is ignored by Git and is only used for local synthesis.
+
+[server_remote]
+https://your-private-subscription.example/raw, tag=节点合集, update-interval=172800, opt-parser=false, enabled=true
+
+[mitm]
+skip_validating_cert = true
+force_sni_domain_name = false
+passphrase = YOUR_PASSPHRASE
+p12 = YOUR_BASE64_P12
+hostname = -testflight.apple.com, -*.fcbox.com, -*huami.com, -*amemv.com, -*snssdk.com, -www.google.com
