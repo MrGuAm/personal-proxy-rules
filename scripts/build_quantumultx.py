@@ -94,6 +94,9 @@ def merge_filter_remote(official: str, personal: str) -> str:
         map_official_policy(line)
         for line in body_lines(official)
         if resource_url(line) not in personal_urls
+        # Replace the upstream broad StreamingSE entry with the personal,
+        # Bilibili-only rule set so other streaming services are unaffected.
+        and not resource_url(line).endswith("/StreamingSE.list")
     ]
 
     # Put broad catch-all resources last so they cannot shadow personal service rules.

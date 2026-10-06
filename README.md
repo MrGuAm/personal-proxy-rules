@@ -32,12 +32,13 @@ bash scripts/build_quantumultx_local.sh
 - 🤖 AI平台：OpenAI、ChatGPT、Codex、Claude、Gemini
 - ▶️YouTube
 - 🎵Spotify
+- 📺哔哩哔哩：🇹🇼 台湾节点、🇭🇰 香港节点或直连
 - Apple 服务：直连
 - 🛒Amazon电商，默认直连
 - 🇷🇺Wildberries电商，默认直连
 - 🛡️ 广告拦截：`REJECT`，可切换为 `DIRECT` 关闭拦截
 - 🛟 漏网之鱼：🚀 节点选择
-- 节点：🇭🇰 香港、🇯🇵 日本、🇸🇬 新加坡、🇺🇸 美国、☁️ AWS亚马逊服务器节点
+- 节点：🇭🇰 香港、🇯🇵 日本、🇸🇬 新加坡、🇺🇸 美国、🇹🇼 台湾、☁️ AWS亚马逊服务器节点
 - 国内域名和中国大陆 IP：通过 GeoSite/GeoIP 规则默认直连，不单独创建策略组。
 
 ## 规则源
