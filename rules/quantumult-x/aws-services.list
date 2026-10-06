@@ -1,10 +1,11 @@
 # AWS console and cloud service domains. Keep these before Amazon shopping rules.
-HOST-SUFFIX,aws.amazon.com,direct
-HOST-SUFFIX,amazonaws.com,direct
-HOST-SUFFIX,amazonaws.com.cn,direct
-HOST-SUFFIX,amazonaws.cn,direct
-HOST-SUFFIX,awsstatic.com,direct
-HOST-SUFFIX,aws.dev,direct
-HOST-SUFFIX,awscloud.com,direct
-HOST-SUFFIX,aws,direct
-HOST-SUFFIX,console.aws.a2z.com,direct
+# The generated Quantumult X config also applies this policy through force-policy.
+HOST-SUFFIX,aws.amazon.com,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,amazonaws.com,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,amazonaws.com.cn,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,amazonaws.cn,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,awsstatic.com,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,aws.dev,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,awscloud.com,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,aws,☁️ AWS亚马逊服务器节点
+HOST-SUFFIX,console.aws.a2z.com,☁️ AWS亚马逊服务器节点
