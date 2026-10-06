@@ -6,7 +6,6 @@ mode: rule
 log-level: info
 unified-delay: true
 tcp-concurrent: true
-global-client-fingerprint: chrome
 geodata-mode: true
 geox-url:
   geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
@@ -326,7 +325,7 @@ rules:
   # Apple 服务直连，覆盖推送、登录、App Store 和 iCloud 等域名。
   - RULE-SET,apple_services,DIRECT
   # AWS 控制台和云服务使用专用 AWS 节点，优先于 Amazon 电商后缀。
-  - RULE-SET,aws_services,"☁️ AWS亚马逊服务器节点"
+  - RULE-SET,aws_services,☁️ AWS亚马逊服务器节点
   - RULE-SET,amazon_shop,🛒Amazon电商
   - RULE-SET,wildberries,🇷🇺Wildberries电商
   # 国内域名和中国大陆 IP 默认直连。
